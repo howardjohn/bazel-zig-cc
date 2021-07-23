@@ -111,10 +111,12 @@ exports_files(glob["**"])
     zig_repository(
         name = "com_github_ziglang_zig",
 
-        version = "0.8.0-dev.1802+b3f5d4dc4",
-        url_format = "https://ziglang.org/builds/zig-{host_platform}-{version}.tar.xz",
+        #version = "0.9.0-dev.541+a38a69148",
+        version = "0.8.0",
+        #url_format = "https://ziglang.org/builds/zig-{host_platform}-{version}.tar.xz",
+        url_format = "https://ziglang.org/download/{version}/zig-{host_platform}-{version}.tar.xz",
         host_platform_sha256 = {
-            "linux-x86_64": "433a3773413b1f3f303a57da70057edd6b2cdb9831934ddd8e8cbda399d9410a",
+            "linux-x86_64": "502625d3da3ae595c5f44a809a87714320b7a40e6dff4a895b5fa7df3391d01e",
             "macos-x86_64": "e54cb8a6a510011f946cef6ada45064fe3df4faa86705d98f258ef985e882db3",
         },
 
@@ -140,6 +142,9 @@ def register_all_toolchains():
 ZIG_TOOL_PATH = "tools/{zig_tool}"
 ZIG_TOOL_WRAPPER = """#!/bin/bash
 export HOME=$TMPDIR
+if [[ "{zig_tool}" == cc ]]; then
+  exec "{zig}" c++ "$@"
+fi
 exec "{zig}" "{zig_tool}" "$@"
 """
 
